@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * 
  * 
  */
-public class ImportFiles {
+public class FileLoader {
 
 	private Stage stage;
 	private Path to;

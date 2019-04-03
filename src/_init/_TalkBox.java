@@ -14,10 +14,13 @@ import java.util.Observer;
 
 import components.audio_list.AudioSampleList;
 import components.audio_list.AudioSampleListView;
+import components.button_panel.ButtonMenu;
 import components.button_panel.ButtonPanelModel;
 import components.button_panel.ButtonPanelView;
+import components.profile_panel.ProfilePanelView;
 import components.root.RootView;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -32,7 +35,7 @@ public class _TalkBox extends Application {
 	
 	
 	
-	private Model model;
+
 	
    	
 	public static void main(String[] args) {
@@ -76,12 +79,17 @@ public class _TalkBox extends Application {
     	
         RootView root = new RootView();
         
+        
         List<Observer> audioSampleObservers = new LinkedList<Observer>();  
+        
+        
+        
+        
         
         ButtonPanelModel buttonModel = new ButtonPanelModel();
         
         
-        ButtonPanelView buttonView = new ButtonPanelView(buttonModel);
+        ButtonPanelView buttonView = new ButtonPanelView(buttonModel, new ButtonMenu());
         
         buttonModel.addSubscriber(buttonView);
         
@@ -92,18 +100,48 @@ public class _TalkBox extends Application {
         
 
         
+        VBox rightSidePanelHolder = new VBox();
+        
+        
+        
+        
+        // profiles holder part.
+        
+        Label profilesHeader = new Label("Current Profiles");
+        
+        profilesHeader.setPadding(new Insets(10,10,10,10));
+        
+        rightSidePanelHolder.getChildren().add(profilesHeader);
+        
+        ProfilePanelView profiles = new ProfilePanelView();
+        
+        rightSidePanelHolder.getChildren().add(profiles.getView());
+        
         
         
         // list part.
+        
+        Label audioSamplesHeader = new Label("Current Profiles");
+        
+        audioSamplesHeader.setPadding(new Insets(10,10,10,10));
+        
+        rightSidePanelHolder.getChildren().add(audioSamplesHeader);
+        
         audioSampleObservers.add(buttonModel);
                 
         AudioSampleList sampleModel = AudioSampleList.createAudioList(audioSampleObservers);
         
         AudioSampleListView audioSamplesView = new AudioSampleListView(sampleModel);
+
+        rightSidePanelHolder.getChildren().add(audioSamplesView.getList());
         
-       
+
         
-        root.getChildren().add(audioSamplesView.getList());
+  
+        
+        
+        
+        root.getChildren().add(rightSidePanelHolder);
       
         return root;
     }
